@@ -1,0 +1,24 @@
+@if (tasks().length === 0) {
+  <p class="empty">No tasks yet. Add your first task above! 🎉</p>
+} @else {
+  <ul>
+    @for (task of tasks(); track task.id) {
+      <li
+        [class.completed]="task.completed"
+        [class.high]="task.priority === 'High'"
+        [class.medium]="task.priority === 'Medium'"
+        [class.low]="task.priority === 'Low'"
+      >
+        <input
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="toggle(task.id)"
+          [attr.aria-label]="'Mark ' + task.title + ' as completed'"
+        />
+        <span class="title">{{ task.title }}</span>
+        <span class="badge">{{ task.priority }}</span>
+        <button class="delete" (click)="remove(task.id)" title="Delete task">✕</button>
+      </li>
+    }
+  </ul>
+}

@@ -1,0 +1,46 @@
+<form #taskForm="ngForm" (ngSubmit)="onSubmit(taskForm)" novalidate>
+  <div class="field">
+    <label for="title">Task title</label>
+    <input
+      id="title"
+      name="title"
+      type="text"
+      placeholder="e.g. Finish Angular assignment"
+      [(ngModel)]="title"
+      #titleCtrl="ngModel"
+      required
+      minlength="3"
+      maxlength="60"
+      pattern=".*\S.*"
+      [class.invalid]="titleCtrl.invalid && (titleCtrl.touched || taskForm.submitted)"
+    />
+
+    @if (titleCtrl.invalid && (titleCtrl.touched || taskForm.submitted)) {
+      <div class="error">
+        @if (titleCtrl.errors?.['required']) {
+          <span>Title is required.</span>
+        } @else if (titleCtrl.errors?.['minlength']) {
+          <span>Title must be at least 3 characters.</span>
+        } @else if (titleCtrl.errors?.['pattern']) {
+          <span>Title cannot be only spaces.</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="field">
+    <label for="priority">Priority</label>
+    <select id="priority" name="priority" [(ngModel)]="priority">
+      @for (p of priorities; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn primary" [disabled]="taskForm.invalid">Add Task</button>
+    <button type="button" class="btn" (click)="clear(taskForm)">Clear Form</button>
+  </div>
+
+  <p class="preview">Preview: <strong>{{ title || '(empty)' }}</strong> [{{ priority }}]</p>
+</form>

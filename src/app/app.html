@@ -1,0 +1,17 @@
+<main class="container">
+  <h1>{{ appTitle }}</h1>
+
+  <p class="pending" [class.all-done]="pendingCount() === 0">
+    Pending tasks: <strong>{{ pendingCount() }}</strong>
+  </p>
+
+  <section class="card">
+    <h2>Add a new task</h2>
+    <app-task-form />
+  </section>
+
+  <section class="card">
+    <h2>Your tasks</h2>
+    <app-task-list />
+  </section>
+</main>
